@@ -34,7 +34,7 @@ function Index() {
       <Toaster theme="dark" position="top-center" richColors />
 
       <header className="border-b border-border/60 backdrop-blur-sm">
-        <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-center relative">
+        <div className="mx-auto max-w-6xl px-6 py-2 flex items-center justify-center relative">
           <button
             type="button"
             onClick={handleLogoClick}
