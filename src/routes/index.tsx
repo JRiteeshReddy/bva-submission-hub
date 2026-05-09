@@ -45,7 +45,7 @@ function Index() {
               src={bvaLogo}
               alt="BVA"
               draggable={false}
-              className="h-10 w-auto transition-transform duration-300 group-hover:scale-105 group-active:scale-95"
+              className="h-20 sm:h-24 w-auto transition-transform duration-300 group-hover:scale-105 group-active:scale-95"
             />
           </button>
           <span className="hidden sm:inline absolute right-6 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
