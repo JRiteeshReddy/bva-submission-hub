@@ -146,6 +146,8 @@ function Index() {
           </nav>
         </SheetContent>
       </Sheet>
+
+      <AdminPanel open={adminOpen} onOpenChange={setAdminOpen} />
     </div>
   );
 }
