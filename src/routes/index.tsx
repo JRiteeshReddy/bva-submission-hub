@@ -24,6 +24,25 @@ function Index() {
     () => getPhase().state,
   );
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const clicksRef = useRef<{ count: number; timer: ReturnType<typeof setTimeout> | null }>({
+    count: 0,
+    timer: null,
+  });
+
+  function handleLogoClick() {
+    const c = clicksRef.current;
+    c.count += 1;
+    if (c.timer) clearTimeout(c.timer);
+    if (c.count >= 5) {
+      c.count = 0;
+      setAdminOpen(true);
+      return;
+    }
+    c.timer = setTimeout(() => {
+      c.count = 0;
+    }, 800);
+  }
 
   function handleJump(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
