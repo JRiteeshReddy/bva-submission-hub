@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Menu } from "lucide-react";
 import { Toaster } from "sonner";
 import { Countdown } from "@/components/Countdown";
 import { SubmissionForm } from "@/components/SubmissionForm";
+import { AdminPanel } from "@/components/AdminPanel";
 import {
   Sheet,
   SheetContent,
@@ -23,6 +24,25 @@ function Index() {
     () => getPhase().state,
   );
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const clicksRef = useRef<{ count: number; timer: ReturnType<typeof setTimeout> | null }>({
+    count: 0,
+    timer: null,
+  });
+
+  function handleLogoClick() {
+    const c = clicksRef.current;
+    c.count += 1;
+    if (c.timer) clearTimeout(c.timer);
+    if (c.count >= 5) {
+      c.count = 0;
+      setAdminOpen(true);
+      return;
+    }
+    c.timer = setTimeout(() => {
+      c.count = 0;
+    }, 800);
+  }
 
   function handleJump(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -35,14 +55,19 @@ function Index() {
 
       <header className="border-b border-border/60 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
-          <a href="#top" aria-label="BVA" className="group select-none focus:outline-none">
+          <button
+            type="button"
+            onClick={handleLogoClick}
+            aria-label="BVA"
+            className="group select-none focus:outline-none"
+          >
             <img
               src={bvaLogo}
               alt="BVA"
               draggable={false}
               className="h-20 sm:h-24 w-auto transition-transform duration-300 group-hover:scale-105 group-active:scale-95"
             />
-          </a>
+          </button>
 
           <div className="flex items-center gap-3">
             <span className="hidden sm:inline text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
@@ -121,6 +146,8 @@ function Index() {
           </nav>
         </SheetContent>
       </Sheet>
+
+      <AdminPanel open={adminOpen} onOpenChange={setAdminOpen} />
     </div>
   );
 }
