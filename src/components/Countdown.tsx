@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { getPhase, formatDuration, type Phase } from "@/lib/hackathon-window";
 
 export function Countdown({ onPhaseChange }: { onPhaseChange?: (p: Phase) => void }) {
+  const [mounted, setMounted] = useState(false);
   const [phase, setPhase] = useState<Phase>(() => getPhase());
   const [now, setNow] = useState<number>(() => Date.now());
 
   useEffect(() => {
+    setMounted(true);
+    setNow(Date.now());
+    setPhase(getPhase());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
@@ -35,11 +39,11 @@ export function Countdown({ onPhaseChange }: { onPhaseChange?: (p: Phase) => voi
         <span key={label} className="animate-fade-in-up">{label}</span>
       </div>
       <div className="flex items-end gap-3 sm:gap-6 font-display tabular-nums">
-        <TimeBlock value={h} label="Hours" />
+        <TimeBlock value={mounted ? h : "--"} label="Hours" />
         <Colon />
-        <TimeBlock value={m} label="Minutes" />
+        <TimeBlock value={mounted ? m : "--"} label="Minutes" />
         <Colon />
-        <TimeBlock value={s} label="Seconds" />
+        <TimeBlock value={mounted ? s : "--"} label="Seconds" />
       </div>
     </div>
   );
